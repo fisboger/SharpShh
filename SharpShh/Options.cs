@@ -18,6 +18,9 @@ namespace SharpShh
         [Option('i', Required = false, HelpText = "IV to use for decryption. Encryption will always be random")]
         public string Base64IV { get; set; }
 
+        [Option('b', Required = false, HelpText = "Bypass AMSI")]
+        public bool BypassAmsi { get; set; } = true;
+
         public byte[] Key => System.Convert.FromBase64String(Base64Key);
         public byte[] IV => System.Convert.FromBase64String(Base64IV);
     }

